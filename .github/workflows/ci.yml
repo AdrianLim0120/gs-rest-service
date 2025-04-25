@@ -35,24 +35,10 @@ jobs:
         run: |
           ./mvnw clean package -B
 
-      - name: Run tests & generate coverage
+      - name: Run tests
         working-directory: complete
         run: |
-          ./mvnw test jacoco:report -B
-
-      - name: Upload test reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-reports
-          path: complete/target/surefire-reports/
-
-      - name: Upload coverage report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: jacoco-report
-          path: complete/target/site/jacoco/
+           ./mvnw clean test -B
 
   build-docker:
     runs-on: ubuntu-latest
