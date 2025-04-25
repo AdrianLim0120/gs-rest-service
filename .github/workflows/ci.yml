@@ -45,10 +45,7 @@ jobs:
     needs: build-and-test
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-
-      - name: Build Docker image 
+      - uses: actions/checkout@v3
+      - name: Build Docker image
         working-directory: complete
-        run: |
-          docker build -t gs-rest-service .
+        run: docker build -t gs-rest-service .
