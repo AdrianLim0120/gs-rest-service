@@ -32,7 +32,7 @@ jobs:
       - name: Build & run tests
         working-directory: complete
         run: |
-          ./mvnw clean test -B
+          ./mvnw clean package -B
 
       - name: Upload test reports
         if: always()
