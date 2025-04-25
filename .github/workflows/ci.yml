@@ -11,7 +11,6 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -22,7 +21,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Cache Maven local repository
+      - name: Cache Maven repository
         uses: actions/cache@v3
         with:
           path: ~/.m2/repository
@@ -30,20 +29,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-m2-
 
-      - name: Build with Maven
+      - name: Build & run tests
         working-directory: complete
         run: |
-          ./mvnw clean package -B
+          ./mvnw clean test -B
 
-      - name: Run tests
-        working-directory: complete
-        run: |
-           ./mvnw clean test -B
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: complete/target/surefire-reports/
 
   build-docker:
-    runs-on: ubuntu-latest
     needs: build-and-test
-
+    runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v3
