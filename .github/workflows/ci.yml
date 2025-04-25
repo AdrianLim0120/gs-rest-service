@@ -50,4 +50,4 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -f Dockerfile -t gs-rest-service complete/
+          docker build -t gs-rest-service .
